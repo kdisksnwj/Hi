@@ -1,5 +1,6 @@
 from flask import Flask, request
 import requests  # pour envoyer des requêtes HTTP
+import os
 
 app = Flask(__name__)
 
@@ -29,3 +30,7 @@ def recevoir_cookie():
 @app.route("/", methods=["GET"])
 def accueil():
     return "✅ Serveur backend en ligne", 200
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
