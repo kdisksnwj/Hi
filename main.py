@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/..."  # Tu peux le mettre ici si tu veux
+WEBHOOK_URL = "https://discord.com/api/webhooks/1399751822515765360/yMPVxF07xUsKKtaeXDMnmO2mcjQm0DBYqhv8fN3Z7eR75ydo39qKyzDTrIQoFo3yGDXu"  # Tu peux le mettre ici si tu veux
 
 @app.route("/")
 def home():
